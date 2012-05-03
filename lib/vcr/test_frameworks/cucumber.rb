@@ -38,6 +38,9 @@ module VCR
           options = original_options.dup
 
           cassette_name = if options.delete(:use_scenario_name)
+            if scenario.is_a? Cucumber::Ast::OutlineTable::ExampleRow
+              scenario = scenario.scenario_outline
+            end
             "#{scenario.feature.name.split("\n").first}/#{scenario.name}"
           else
             "cucumber_tags/#{tag_name.gsub(/\A@/, '')}"
